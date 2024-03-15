@@ -2,11 +2,12 @@ import random
 import turtle
 import time
 turtle.register_shape("head.gif") #Turtle için resim tanıtıldı.
-
+turtle.register_shape("start.gif")
 #Karakter, score, ve zaman sayacı için çizim araçları tanımlandı.
 turtle_instance=turtle.Turtle()
 score=turtle.Turtle()
 Time=turtle.Turtle()
+buton_basla=turtle.Turtle()
 
 #Karakter resmi eklendi
 turtle_instance.shapesize(2)
@@ -34,6 +35,12 @@ score.speed(0)
 score.goto(0, 275)
 score.write("SCORE:0", align="center", font=("Arial", 20, "normal"))
 
+buton_basla.penup()
+buton_basla.speed(0)
+buton_basla.shape("start.gif")
+buton_basla.goto(0,0)
+
+
 #Tıklamaları algılamak ve saymak için fonksiyon tanımlandı.
 def click(x, y):
     if not hasattr(click, 'sayac'):
@@ -42,29 +49,47 @@ def click(x, y):
     score.clear()
     score.write("SCORE:%s"%click.sayac, align="center", font=("Arial", 15, "normal"))
 
+    #Butona basıldığında algılaması için fonksiyon yazıldı
+basla= None
+def click_basla(x, y):
+    global basla
+    if hasattr(click_basla, 'sayac'):
+        click_basla.sayac = True
+        basla = click_basla.sayac
+    else:
+        click_basla.sayac = False
+        basla = click_basla.sayac
+
 #Zaman sayacı için değişken belirlendi.
-t=1
 
-#Oyun for döngüsüyle başlatıldı.
-for i in range(60):
-    vakit=60-i
-    Time.write("Time: %s"%vakit, align="center", font=("Arial", 15, "normal"))
 
-    #Karakterin x,y konumu random komutuyla belirlendi
-    x=random.randint(-250,250)
-    y=random.randint(-235,235)
-    turtle_instance.setposition(x,y)
-    turtle_instance.showturtle()
+while True:
+    t = 1
+    buton_basla.onclick(click_basla)
+    if basla==True:
+        buton_basla.hideturtle()
+        time.sleep(1)
+    #Oyun for döngüsüyle başlatıldı.
+        for i in range(60):
+            vakit=60-i
+            Time.write("Time: %s"%vakit, align="center", font=("Arial", 15, "normal"))
 
-    #Oyun ilerledikçe karakter yer değiştirmesini hızlandırmak için bekleme süresi her döngüde kısaltıldı.
-    t-=0.01
-    time.sleep(t)
-    turtle_instance.onclick(click)
-    turtle_instance.hideturtle()
-    time.sleep(0.1)
-    Time.clear()
+            #Karakterin x,y konumu random komutuyla belirlendi
+            x=random.randint(-250,250)
+            y=random.randint(-235,235)
+            turtle_instance.setposition(x,y)
+            turtle_instance.showturtle()
 
-#Süre bitiminde ekrana Game Over! yazdırıldı.
-Time.write("Game Over!", align="center", font=("Arial", 15, "normal"))
+            #Oyun ilerledikçe karakter yer değiştirmesini hızlandırmak için bekleme süresi her döngüde kısaltıldı.
+            t-=0.01
+            time.sleep(t)
+            turtle_instance.onclick(click)
+            turtle_instance.hideturtle()
+            time.sleep(0.1)
+            Time.clear()
+    buton_basla.showturtle()
+    #Süre bitiminde ekrana Game Over! yazdırıldı.
+    Time.write("Game Over!", align="center", font=("Arial", 15, "normal"))
+    basla=False
 
 draw_board.mainloop()
