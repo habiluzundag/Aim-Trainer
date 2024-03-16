@@ -41,10 +41,12 @@ buton_basla.shape("start.gif")
 buton_basla.goto(0,0)
 
 
-#Tıklamaları algılamak ve saymak için fonksiyon tanımlandı.
+#Tıklamaları algılamak ve saymak için fonksiyon tanımlandı.#
+sayac=0
 def click(x, y):
     if not hasattr(click, 'sayac'):
         click.sayac = 0
+    turtle_instance.hideturtle()
     click.sayac += 1
     score.clear()
     score.write("SCORE:%s"%click.sayac, align="center", font=("Arial", 15, "normal"))
