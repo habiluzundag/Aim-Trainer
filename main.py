@@ -42,25 +42,27 @@ buton_basla.goto(0,0)
 
 
 #Tıklamaları algılamak ve saymak için fonksiyon tanımlandı.#
-sayac=0
+kill=0
 def click(x, y):
+    global kill
     if not hasattr(click, 'sayac'):
         click.sayac = 0
     turtle_instance.hideturtle()
-    click.sayac += 1
+    click.sayac = 1
+    kill+=click.sayac
     score.clear()
-    score.write("SCORE:%s"%click.sayac, align="center", font=("Arial", 15, "normal"))
+    score.write("SCORE:%s"%kill, align="center", font=("Arial", 15, "normal"))
 
     #Butona basıldığında algılaması için fonksiyon yazıldı
 basla= None
 def click_basla(x, y):
     global basla
-    if hasattr(click_basla, 'sayac'):
-        click_basla.sayac = True
-        basla = click_basla.sayac
+    if hasattr(click_basla, 'komut'):
+        click_basla.komut = True
+        basla = click_basla.komut
     else:
-        click_basla.sayac = False
-        basla = click_basla.sayac
+        click_basla.komut = False
+        basla = click_basla.komut
 
 #Zaman sayacı için değişken belirlendi.
 
@@ -68,7 +70,10 @@ def click_basla(x, y):
 while True:
     t = 1
     buton_basla.onclick(click_basla)
+    kill=0
     if basla==True:
+        score.clear()
+        Time.clear()
         buton_basla.hideturtle()
         time.sleep(1)
     #Oyun for döngüsüyle başlatıldı.
